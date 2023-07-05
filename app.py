@@ -7,6 +7,7 @@ from langchain.vectorstores import FAISS
 from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationalRetrievalChain
 from langchain.chat_models import ChatOpenAI
+from htmlTemplates import css, bot_template, user_template
 
 def  get_pdf_text(pdf_docs):
     text = ""
@@ -14,7 +15,6 @@ def  get_pdf_text(pdf_docs):
         pdf_reader = PdfReader(pdf)
         for page in pdf_reader.pages:
             text += page.extract_text()
-    return text
 
 
 def get_text_chunks(text):
@@ -56,6 +56,8 @@ def main():
     st.header("Chat with multiple PDFs :books:")
     st.text_input("Ask a question about your documents:")
 
+    st.write(user_template.replace("{{MSG}}", "hello robot"), unsafe_allow_html = True)
+    st.write(bot_template.replace("{{MSG}}", "hello human"), unsafe_allow_html = True)
     with st.sidebar:
         st.subheader("Your documents")
         pdf_docs = st.file_uploader(
